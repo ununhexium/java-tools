@@ -1,5 +1,6 @@
 package net.lab0.tools.math;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,5 +29,23 @@ public class MyMathTest
             boolean isPrime = MyMath.isPrime(i);
             Assert.assertEquals("" + i, primes.contains(i), isPrime);
         }
+    }
+    
+    @Test
+    public void testPrimeDecomposition()
+    {
+        Assert.assertTrue(MyMath.primeDecomposition(0).size() == 0);
+        Assert.assertTrue(MyMath.primeDecomposition(1).size() == 0);
+        Assert.assertTrue(MyMath.primeDecomposition(-1).size() == 0);
+        
+        List<Long> p128 = Arrays.asList(2L, 2L, 2L, 2L, 2L, 2L, 2L);
+        Assert.assertArrayEquals(p128.toArray(), MyMath.primeDecomposition(128).toArray());
+        
+        List<Long> p238 = Arrays.asList(2L, 7L, 17L);
+        Assert.assertArrayEquals(p238.toArray(), MyMath.primeDecomposition(238).toArray());
+        
+        List<Long> p375 = Arrays.asList(3L, 5L, 5L, 5L);
+        Assert.assertArrayEquals(p375.toArray(), MyMath.primeDecomposition(375).toArray());
+        
     }
 }

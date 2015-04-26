@@ -3,6 +3,7 @@ package net.lab0.tools.math;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,6 +42,11 @@ public class MyMath
     {
         List<Long> factors = new ArrayList<>();
         
+        if (n < 2)
+        {
+            return new ArrayList<>(0);
+        }
+        
         // special case for the pair numbers -> allows a +=2 in the next loop
         long i = 2;
         while (n % i == 0)
@@ -59,7 +65,14 @@ public class MyMath
             }
             i += 2;
         }
-        factors.add(n);
+        
+        /*
+         * This check is there to avoid adding a '1' to the list of prime numbers.
+         */
+        if (n != 1)
+        {
+            factors.add(n);
+        }
         
         return factors;
     }
