@@ -3,7 +3,6 @@ package net.lab0.tools.math;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -116,26 +115,32 @@ public class MyMath
     }
     
     /**
-     * Computes a list of all the primes number between 2 and <code>length</code> included using the Sieve of
-     * Eratosthenes.
+     * Computes a list of all the primes number between 2 and <code>max</code> included using the Sieve of Eratosthenes.
      * 
-     * @param length
+     * @param max
      *            search primes numbers up to this value.
      * @return A list of primes numbers.
+     * @throws IllegalArgumentException
+     *             If <code>max</code> is < 2 or if <code>max</code> == {@link Integer#MAX_VALUE}.
      */
-    public static List<Integer> getPrimes(int length)
+    public static List<Integer> getPrimes(int max) throws IllegalArgumentException
     {
-        boolean[] array = new boolean[length];
+        if (max <2 || max==Integer.MAX_VALUE){
+            throw new IllegalArgumentException("The value of must be 2 <= v < Integer.MAX_VALUE");
+        }
+        int arrayLength = max + 1;
+        boolean[] array = new boolean[arrayLength];
         // these are nor primes
         array[0] = true;
         array[1] = true;
         int step = 2;
-        while (step * step < length && step <= Math.sqrt(Integer.MAX_VALUE) + 1) // this second condition is for
-                                                                                 // overflow checking when length =
-                                                                                 // Integer.MAX_VALUE
+        /*
+         * the second condition is for overflow checking when length = Integer.MAX_VALUE
+         */
+        while (step * step < max && step <= Math.sqrt(Integer.MAX_VALUE) + 1)
         {
             // System.out.println("step=" + step);
-            for (int i = 2 * step; i < array.length && i >= 0; i += step)
+            for (int i = 2 * step; i < arrayLength && i >= 0; i += step)
             {
                 array[i] = true;
             }
@@ -148,7 +153,7 @@ public class MyMath
         }
         
         List<Integer> primes = new ArrayList<>();
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < arrayLength; i++)
         {
             if (!array[i])
             {
