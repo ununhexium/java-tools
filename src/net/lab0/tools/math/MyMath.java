@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Some math functions that are not provided by java.
@@ -18,7 +19,7 @@ public class MyMath
      * 
      * @param n
      *            The index of the Fibonacci number you want.
-     * @return the value of the Nth number in the Fibonacci deries.
+     * @return the value of the Nth number in the Fibonacci series.
      */
     public static long resursiveFibo(int n)
     {
@@ -121,12 +122,13 @@ public class MyMath
      *            search primes numbers up to this value.
      * @return A list of primes numbers.
      * @throws IllegalArgumentException
-     *             If <code>max</code> is < 2 or if <code>max</code> == {@link Integer#MAX_VALUE}.
+     *             If <code>max</code> is &lt; 2 or if <code>max</code> >= {@link Integer#MAX_VALUE} - 2.
      */
     public static List<Integer> getPrimes(int max) throws IllegalArgumentException
     {
-        if (max <2 || max==Integer.MAX_VALUE){
-            throw new IllegalArgumentException("The value of must be 2 <= v < Integer.MAX_VALUE");
+        if (max < 2 || max >= Integer.MAX_VALUE - 2)
+        {
+            throw new IllegalArgumentException("The value of must be 2 <= v < Integer.MAX_VALUE - 2");
         }
         int arrayLength = max + 1;
         boolean[] array = new boolean[arrayLength];
@@ -475,6 +477,41 @@ public class MyMath
     }
     
     /**
+     * Tests if the number is prime by using the supplied list of known prime numbers only.
+     * 
+     * @param value
+     *            the value to test
+     * @param knowPrimes
+     *            a list of knows primes. Must contain the prime up to sqrt(value)
+     * 
+     * @return <code>true</code> if the number is prime, <code>false</code> otherwise.
+     */
+    public static boolean isPrime(long value, List<Integer> knowPrimes)
+    {
+        long max = knowPrimes.get(knowPrimes.size() - 1);
+        if (max * max < value)
+        {
+            throw new IllegalArgumentException("The list of provided prime numbers is not long enough. The max value is "
+            + max + ". The number to test is " + value);
+        }
+        for (long k : knowPrimes)
+        {
+            if (k * k > value)
+            {
+                return true;
+            }
+            if (value % k == 0)
+            {
+                if (value == k)
+                {
+                    return true;
+                }
+            }
+        }
+        return true;
+    }
+    
+    /**
      * Sums the numbers in the given collection as longs. Doesn't handle overflows.
      * 
      * @param collection
@@ -509,5 +546,16 @@ public class MyMath
         {
             return power(number, exponent - 1) * number;
         }
+    }
+    
+    /**
+     * 
+     * @param max
+     * @return An approximation of the quantity of prime numbers below <code>max</code>.
+     */
+    public static double primeBelow(long max)
+    {
+        double m = max;
+        return m / (Math.log(max) - 1);
     }
 }

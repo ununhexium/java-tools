@@ -111,6 +111,22 @@ public class FileUtils
     }
     
     /**
+     * Searches for the next available folder name and creates the corresponding folder.
+     * 
+     * @param basePath
+     *            The parent folder in which you want to create the new folder.
+     * @param baseName
+     *            The base name of the new folder.
+     * @return The path to the new folder.
+     */
+    public static Path getNextAvailablePathAndCreate(Path basePath, String baseName)
+    {
+        int i = getNextAvailablePath(basePath, baseName);
+        Path p = basePath.resolve(baseName + i);
+        return p;
+    }
+    
+    /**
      * Reads a text file line by line
      * 
      * @param input

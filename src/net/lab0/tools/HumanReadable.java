@@ -37,7 +37,7 @@ public class HumanReadable
      */
     public static String humanReadableNumber(long quantity, boolean si, String unitName)
     {
-        int unit = si ? 1000 : 1024;
+        long unit = si ? 1000L : 1024L;
         if (quantity < unit)
             return Long.toString(quantity) + unitName;
         int exp = (int) (Math.log(quantity) / Math.log(unit));
